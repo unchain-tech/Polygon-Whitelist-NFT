@@ -10,7 +10,7 @@
     ]
   },
   "scripts": {
-    "contracts": "yarn workspace contracts",
+    "contract": "yarn workspace contract",
     "frontend": "yarn workspace frontend",
     "test": "yarn contract test"
   }
