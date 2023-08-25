@@ -3,12 +3,13 @@ const { ethers } = require('hardhat');
 const { expect } = require('chai');
 
 describe('Whitelist', function () {
-  // 各テストの前に呼び出す関数です。テストで使用する変数やコントラクトのデプロイを行います。
+  // We define a fixture to reuse the same setup in every test.
+  // We use loadFixture to run this setup once, snapshot that state,
+  // and reset Hardhat Network to that snapshot in every test.
   async function deployWhitelistFixture() {
-    // テストアカウントを取得します。
+    // Contracts are deployed using the first signer/account by default
     const [owner, alice, bob] = await ethers.getSigners();
 
-    // コントラクトのインスタンスを生成し、デプロイを行います。
     const whitelistFactory = await ethers.getContractFactory('Whitelist');
     const whitelist = await whitelistFactory.deploy([owner.address, alice.address]);
 
@@ -18,11 +19,10 @@ describe('Whitelist', function () {
   describe('addToWhitelist', function () {
     context('when user is not owner', function () {
       it('reverts', async function () {
-        // テストの準備をします。
         const { whitelist, alice, bob } = await loadFixture(
           deployWhitelistFixture,
         );
-        // 実行＆確認をします。
+
         await expect(whitelist.connect(alice).addToWhitelist(bob.address)).to.be.revertedWith(
           'Caller is not the owner',
         );
@@ -33,6 +33,7 @@ describe('Whitelist', function () {
         const { whitelist, alice } = await loadFixture(
           deployWhitelistFixture,
         );
+
         await expect(whitelist.addToWhitelist(alice.address)).to.be.revertedWith(
           'Address already whitelisted',
         );
@@ -43,6 +44,7 @@ describe('Whitelist', function () {
         const { whitelist, bob } = await loadFixture(
           deployWhitelistFixture,
         );
+
         await expect(whitelist.addToWhitelist(bob.address))
           .to.emit(whitelist, 'AddToWhitelist')
           .withArgs(bob.address);
@@ -56,6 +58,7 @@ describe('Whitelist', function () {
         const { whitelist, alice, bob } = await loadFixture(
           deployWhitelistFixture,
         );
+
         await expect(whitelist.connect(alice).removeFromWhitelist(bob.address)).to.be.revertedWith(
           'Caller is not the owner',
         );
@@ -66,6 +69,7 @@ describe('Whitelist', function () {
         const { whitelist, bob } = await loadFixture(
           deployWhitelistFixture,
         );
+
         await expect(whitelist.removeFromWhitelist(bob.address)).to.be.revertedWith(
           'Address not in whitelist',
         );
@@ -76,6 +80,7 @@ describe('Whitelist', function () {
         const { whitelist, alice } = await loadFixture(
           deployWhitelistFixture,
         );
+
         await expect(whitelist.removeFromWhitelist(alice.address))
           .to.emit(whitelist, 'RemoveFromWhitelist')
           .withArgs(alice.address);
@@ -89,6 +94,7 @@ describe('Whitelist', function () {
         const { whitelist, bob } = await loadFixture(
           deployWhitelistFixture,
         );
+
         expect(await whitelist.whitelistedAddresses(bob.address)).to.be.false;
       });
     });
@@ -97,6 +103,7 @@ describe('Whitelist', function () {
         const { whitelist, alice } = await loadFixture(
           deployWhitelistFixture,
         );
+
         expect(await whitelist.whitelistedAddresses(alice.address)).to.be.true;
       });
     });
