@@ -2,10 +2,7 @@
   "extends": "solhint:recommended",
   "plugins": [],
   "rules": {
-    "compiler-version": [
-      "error",
-      ">=0.8.4"
-    ],
+    "compiler-version": ["error", ">=0.8.4"],
     "custom-errors": "off",
     "func-visibility": [
       "warn",

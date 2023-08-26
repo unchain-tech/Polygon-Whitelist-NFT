@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { ethers } = require('hardhat');
 const { expect } = require('chai');
+const { ethers } = require('hardhat');
 
 describe('Shield', function () {
   // We define a fixture to reuse the same setup in every test.
@@ -13,7 +13,10 @@ describe('Shield', function () {
     const [owner, alice, bob] = await ethers.getSigners();
 
     const whitelistFactory = await ethers.getContractFactory('Whitelist');
-    const whitelist = await whitelistFactory.deploy([owner.address, alice.address]);
+    const whitelist = await whitelistFactory.deploy([
+      owner.address,
+      alice.address,
+    ]);
     const shieldFactory = await ethers.getContractFactory('Shield');
     const shield = await shieldFactory.deploy(dummyBaseURI, whitelist.address);
 
@@ -27,9 +30,7 @@ describe('Shield', function () {
   describe('setPaused', function () {
     context('when user is not owner', function () {
       it('reverts', async function () {
-        const { shield, alice } = await loadFixture(
-          deployWhitelistFixture,
-        );
+        const { shield, alice } = await loadFixture(deployWhitelistFixture);
 
         await expect(shield.connect(alice).setPaused(true)).to.be.revertedWith(
           'Ownable: caller is not the owner',
@@ -38,9 +39,7 @@ describe('Shield', function () {
     });
     context('when set to true', function () {
       it('_paused variable is true', async function () {
-        const { shield } = await loadFixture(
-          deployWhitelistFixture,
-        );
+        const { shield } = await loadFixture(deployWhitelistFixture);
 
         await shield.setPaused(true);
 
@@ -49,9 +48,7 @@ describe('Shield', function () {
     });
     context('when set to false', function () {
       it('_paused variable is false', async function () {
-        const { shield } = await loadFixture(
-          deployWhitelistFixture,
-        );
+        const { shield } = await loadFixture(deployWhitelistFixture);
 
         // The initial value of boolean is `false`,
         // so it is set to `true` once and then to false.
@@ -71,9 +68,9 @@ describe('Shield', function () {
         );
         await shield.setPaused(true);
 
-        await expect(shield.connect(alice).mint({ value: price })).to.be.revertedWith(
-          'Contract currently paused',
-        );
+        await expect(
+          shield.connect(alice).mint({ value: price }),
+        ).to.be.revertedWith('Contract currently paused');
       });
     });
     context('when user is not in whitelist', function () {
@@ -82,48 +79,49 @@ describe('Shield', function () {
           deployWhitelistFixture,
         );
 
-        await expect(shield.connect(bob).mint({ value: price })).to.be.revertedWith(
-          'You are not whitelisted',
-        );
+        await expect(
+          shield.connect(bob).mint({ value: price }),
+        ).to.be.revertedWith('You are not whitelisted');
       });
     });
-    context('when the number of maxTokenIds has already been minted', function () {
-      it('reverts', async function () {
-        const { shield, price, maxTokenIds } = await loadFixture(
-          deployWhitelistFixture,
-        );
-        // Mint for maxTokenIds times.
-        for (let id = 0; id < maxTokenIds; id++) {
-          await shield.mint({ value: price });
-        }
+    context(
+      'when the number of maxTokenIds has already been minted',
+      function () {
+        it('reverts', async function () {
+          const { shield, price, maxTokenIds } = await loadFixture(
+            deployWhitelistFixture,
+          );
+          // Mint for maxTokenIds times.
+          for (let id = 0; id < maxTokenIds; id++) {
+            await shield.mint({ value: price });
+          }
 
-        await expect(shield.mint({ value: price })).to.be.revertedWith(
-          'Exceeded maximum Shields supply',
-        );
-      });
-    });
+          await expect(shield.mint({ value: price })).to.be.revertedWith(
+            'Exceeded maximum Shields supply',
+          );
+        });
+      },
+    );
     context('when msg.value is less than _price', function () {
       it('reverts', async function () {
-        const { shield, alice } = await loadFixture(
-          deployWhitelistFixture,
-        );
+        const { shield, alice } = await loadFixture(deployWhitelistFixture);
 
-        await expect(shield.connect(alice).mint({ value: 0 })).to.be.revertedWith(
-          'Ether sent is not correct',
-        );
+        await expect(
+          shield.connect(alice).mint({ value: 0 }),
+        ).to.be.revertedWith('Ether sent is not correct');
       });
     });
     context('when mint is successful', function () {
       it('Shield balance increases', async function () {
-        const { shield, price } = await loadFixture(
-          deployWhitelistFixture,
-        );
+        const { shield, price } = await loadFixture(deployWhitelistFixture);
         // Get the current Shield balance
         const shieldBalance = ethers.utils.formatEther(
           await ethers.provider.getBalance(shield.address),
         );
         // Calculate the expected Shield balance after mint
-        const expectedShieldBalance = parseFloat(shieldBalance) + parseFloat(ethers.utils.formatEther(price));
+        const expectedShieldBalance =
+          parseFloat(shieldBalance) +
+          parseFloat(ethers.utils.formatEther(price));
 
         await shield.mint({ value: price });
 
@@ -132,7 +130,9 @@ describe('Shield', function () {
           await ethers.provider.getBalance(shield.address),
         );
 
-        expect(parseFloat(shieldBalanceAfterMint)).to.equal(expectedShieldBalance);
+        expect(parseFloat(shieldBalanceAfterMint)).to.equal(
+          expectedShieldBalance,
+        );
       });
     });
   });
@@ -140,9 +140,7 @@ describe('Shield', function () {
   describe('withdraw', function () {
     context('when user is not owner', function () {
       it('reverts', async function () {
-        const { shield, alice } = await loadFixture(
-          deployWhitelistFixture,
-        );
+        const { shield, alice } = await loadFixture(deployWhitelistFixture);
 
         await expect(shield.connect(alice).withdraw()).to.be.revertedWith(
           'Ownable: caller is not the owner',
@@ -158,9 +156,7 @@ describe('Shield', function () {
         await shield.connect(alice).mint({ value: price });
 
         // Get the current owner balance
-        const ownerBalance = ethers.utils.formatEther(
-          await owner.getBalance(),
-        );
+        const ownerBalance = ethers.utils.formatEther(await owner.getBalance());
 
         const tx = await shield.withdraw();
 
@@ -169,7 +165,10 @@ describe('Shield', function () {
         const txCost = receipt.gasUsed.mul(tx.gasPrice);
         const formattedTxCost = ethers.utils.formatEther(txCost);
         const formattedPrice = ethers.utils.formatEther(price);
-        const expectedOwnerBalance = parseFloat(ownerBalance) + parseFloat(formattedPrice) - parseFloat(formattedTxCost);
+        const expectedOwnerBalance =
+          parseFloat(ownerBalance) +
+          parseFloat(formattedPrice) -
+          parseFloat(formattedTxCost);
 
         // Get the owner balance after withdraw.
         const ownerBalanceAfterWithdraw = ethers.utils.formatEther(
