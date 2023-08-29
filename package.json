@@ -10,8 +10,10 @@
     ]
   },
   "scripts": {
-    "contract": "yarn workspace contract",
-    "frontend": "yarn workspace frontend",
-    "test": "yarn contract test"
+    "contract:compile": "yarn workspace contract compile",
+    "contract:test": "yarn workspace contract test",
+    "contract:coverage": "yarn workspace contract coverage",
+    "frontend:open": "yarn workspace frontend open",
+    "test": "yarn workspace contract test"
   }
 }
