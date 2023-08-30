@@ -5,11 +5,18 @@
     "compiler-version": ["error", ">=0.8.4"],
     "custom-errors": "off",
     "func-visibility": [
-      "warn",
+      "error",
       {
         "ignoreConstructors": true
       }
     ],
-    "no-global-import": "off"
+    "no-global-import": "off",
+    "private-vars-leading-underscore": [
+      "error",
+      {
+        "strict": false
+      }
+    ],
+    "state-visibility": "error"
   }
 }
