@@ -21,7 +21,7 @@ describe('Shield', function () {
     const shield = await shieldFactory.deploy(dummyBaseURI, whitelist.address);
 
     // Get public variables from Shield contract
-    const price = await shield._price();
+    const price = await shield.price();
     const maxTokenIds = await shield.maxTokenIds();
 
     return { shield, price, maxTokenIds, owner, alice, bob };
@@ -38,16 +38,16 @@ describe('Shield', function () {
       });
     });
     context('when set to true', function () {
-      it('_paused variable is true', async function () {
+      it('paused variable is true', async function () {
         const { shield } = await loadFixture(deployWhitelistFixture);
 
         await shield.setPaused(true);
 
-        expect(await shield._paused()).to.equal(true);
+        expect(await shield.paused()).to.equal(true);
       });
     });
     context('when set to false', function () {
-      it('_paused variable is false', async function () {
+      it('paused variable is false', async function () {
         const { shield } = await loadFixture(deployWhitelistFixture);
 
         // The initial value of boolean is `false`,
@@ -55,13 +55,13 @@ describe('Shield', function () {
         await shield.setPaused(true);
         await shield.setPaused(false);
 
-        expect(await shield._paused()).to.equal(false);
+        expect(await shield.paused()).to.equal(false);
       });
     });
   });
 
   describe('mint', function () {
-    context('when _paused is true', function () {
+    context('when paused is true', function () {
       it('reverts', async function () {
         const { shield, alice, price } = await loadFixture(
           deployWhitelistFixture,
@@ -102,7 +102,7 @@ describe('Shield', function () {
         });
       },
     );
-    context('when msg.value is less than _price', function () {
+    context('when msg.value is less than price', function () {
       it('reverts', async function () {
         const { shield, alice } = await loadFixture(deployWhitelistFixture);
 

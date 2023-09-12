@@ -5,7 +5,7 @@ contract Whitelist {
     // The address that can operate addAddressToWhitelist function
     address public owner;
     
-    mapping(address => bool) private isWhitelisted;
+    mapping(address => bool) private _isWhitelisted;
 
     event AddToWhitelist(address indexed account);
     event RemoveFromWhitelist(address indexed account);
@@ -20,22 +20,22 @@ contract Whitelist {
     function addToWhitelist(address _address) public {
         //check if the user is the owner
         require(owner == msg.sender, "Caller is not the owner");
-        require(!isWhitelisted[_address], "Address already whitelisted");
+        require(!_isWhitelisted[_address], "Address already whitelisted");
 
-        isWhitelisted[_address] = true;
+        _isWhitelisted[_address] = true;
         emit AddToWhitelist(_address);
     }
 
     function removeFromWhitelist(address _address) public {
         //check if the user is the owner
         require(owner == msg.sender, "Caller is not the owner");
-        require(isWhitelisted[_address], "Address not in whitelist");
+        require(_isWhitelisted[_address], "Address not in whitelist");
 
-        isWhitelisted[_address] = false;
+        _isWhitelisted[_address] = false;
         emit RemoveFromWhitelist(_address);
     }
 
     function whitelistedAddresses(address _address) public view returns (bool) {
-        return isWhitelisted[_address];
+        return _isWhitelisted[_address];
     }
 }
