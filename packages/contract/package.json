@@ -24,8 +24,9 @@
     "typescript": ">=4.5.0"
   },
   "scripts": {
-    "test": "npx hardhat test",
-    "compile": "npx hardhat compile",
-    "clean": "npx hardhat clean"
+    "clean": "npx hardhat clean",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage"
   }
 }
