@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  max-width: 500px;
+}
+
+.container label {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.container input {
+  width: 70%;
+  font-size: 1.25rem;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.container button {
+  width: 100%;
+  font-size: 1.25rem;
+  padding: 12px 20px;
+  margin-right: 0.5rem;
+  border-radius: 5px;
+}
+
+.container button:hover {
+  background-color: #ddd;
+}
