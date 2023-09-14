@@ -156,27 +156,22 @@ describe('Shield', function () {
         await shield.connect(alice).mint({ value: price });
 
         // Get the current owner balance
-        const ownerBalance = ethers.utils.formatEther(await owner.getBalance());
+        const ownerBalanceBeforeWithdraw = await owner.getBalance();
 
+        // get tx receipt and find out tx cost
         const tx = await shield.withdraw();
-
-        // Calculates the expected owner balance after withdraw.
         const receipt = await tx.wait();
         const txCost = receipt.gasUsed.mul(tx.gasPrice);
-        const formattedTxCost = ethers.utils.formatEther(txCost);
-        const formattedPrice = ethers.utils.formatEther(price);
-        const expectedOwnerBalance =
-          parseFloat(ownerBalance) +
-          parseFloat(formattedPrice) -
-          parseFloat(formattedTxCost);
+
+        // Calculates the expected owner balance after withdraw.
+        const expectedOwnerBalance = ownerBalanceBeforeWithdraw
+          .add(price)
+          .sub(txCost);
 
         // Get the owner balance after withdraw.
-        const ownerBalanceAfterWithdraw = ethers.utils.formatEther(
-          await owner.getBalance(),
-        );
-        const actualOwnerBalance = parseFloat(ownerBalanceAfterWithdraw);
+        const ownerBalanceAfterWithdraw = await owner.getBalance();
 
-        expect(actualOwnerBalance).to.equal(expectedOwnerBalance);
+        expect(ownerBalanceAfterWithdraw).to.equal(expectedOwnerBalance);
       });
     });
   });
