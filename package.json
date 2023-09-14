@@ -24,11 +24,11 @@
   "scripts": {
     "contract": "yarn workspace contract",
     "frontend": "yarn workspace frontend",
-    "solhint": "solhint --max-warnings 0 \"packages/contract/contracts/*.sol\"",
+    "solhints": "solhint --max-warnings 0 \"packages/contract/contracts/*.sol\"",
     "lint": "eslint --ext .html,.js .",
     "lint:fix": "eslint --fix .",
-    "prettier": "prettier --write --ignore-unknown --no-error-on-unmatched-pattern --ignore-path .prettierignore .",
-    "prettier:check": "prettier --check --ignore-unknown --no-error-on-unmatched-pattern --ignore-path .prettierignore .",
+    "prettier": "prettier --write --plugin=prettier-plugin-solidity --ignore-unknown --no-error-on-unmatched-pattern --ignore-path .prettierignore .",
+    "prettier:check": "prettier --check --plugin=prettier-plugin-solidity --ignore-unknown --no-error-on-unmatched-pattern --ignore-path .prettierignore .",
     "test": "yarn contract test"
   }
 }
