@@ -4,14 +4,14 @@ pragma solidity ^0.8.4;
 contract Whitelist {
     // The address that can operate addAddressToWhitelist function
     address public owner;
-    
+
     mapping(address => bool) private _isWhitelisted;
 
     event AddToWhitelist(address indexed account);
     event RemoveFromWhitelist(address indexed account);
 
     constructor(address[] memory initialAddresses) {
-        owner =msg.sender;
+        owner = msg.sender;
         for (uint256 i = 0; i < initialAddresses.length; i++) {
             addToWhitelist(initialAddresses[i]);
         }
