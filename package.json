@@ -24,7 +24,7 @@
   "scripts": {
     "contract": "yarn workspace contract",
     "frontend": "yarn workspace frontend",
-    "solhints": "solhint --max-warnings 0 \"packages/contract/contracts/*.sol\"",
+    "solhint": "solhint --max-warnings 0 \"packages/contract/contracts/*.sol\"",
     "lint": "eslint --ext .html,.js .",
     "lint:fix": "eslint --fix .",
     "prettier": "prettier --write --plugin=prettier-plugin-solidity --ignore-unknown --no-error-on-unmatched-pattern --ignore-path .prettierignore .",
