@@ -1,6 +1,6 @@
-const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect } = require('chai');
-const { ethers } = require('hardhat');
+import { loadFixture } from '@nomicfoundation/hardhat-network-helpers';
+import { expect } from 'chai';
+import { ethers } from 'hardhat';
 
 describe('Shield', function () {
   // We define a fixture to reuse the same setup in every test.
