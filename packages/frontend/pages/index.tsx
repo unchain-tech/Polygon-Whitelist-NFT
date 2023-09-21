@@ -96,7 +96,8 @@ export default function Home() {
             },
           ],
         });
-      } catch (err) {
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+      } catch (err: any) {
         // This error code indicates that the chain has not been added to MetaMask
         if (err.code === 4902) {
           await window.ethereum.request({
