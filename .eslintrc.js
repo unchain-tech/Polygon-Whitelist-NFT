@@ -11,6 +11,7 @@ module.exports = {
     ethers: 'readonly',
     fundButton: 'readonly',
   },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
   },
