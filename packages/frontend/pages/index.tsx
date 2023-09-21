@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { Inter } from 'next/font/google';
 import styles from '@/styles/Home.module.css';
 import { useState } from 'react';
-import { ethers } from 'ethers';
+import { ethers, ContractTransaction } from 'ethers';
 import ShieldArtifact from '@/artifacts/contracts/Shield.sol/Shield.json';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -34,6 +34,7 @@ export default function Home() {
   const mint = async () => {
     console.log(`Mint...`);
     if (typeof window.ethereum !== 'undefined') {
+      // @ts-expect-error: ethereum as ethers.providers.ExternalProvider
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(
@@ -52,13 +53,31 @@ export default function Home() {
         console.log(error);
       }
     } else {
-      // fundButton.innerHTML = 'Please install MetaMask';
-      alert('Please install MetaMask');
+      setConnectStatus('Please install MetaMask');
     }
   };
 
   const withdraw = async () => {
-    console.log('withdraw');
+    console.log(`Withdraw...`);
+    if (typeof window.ethereum !== 'undefined') {
+      // @ts-expect-error: ethereum as ethers.providers.ExternalProvider
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        contractAddress,
+        ShieldArtifact.abi,
+        signer,
+      );
+      try {
+        const transactionResponse = await contract.withdraw();
+        await waitForTransaction(transactionResponse, provider);
+        console.log('withdraw succeed!');
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setConnectStatus('Please install MetaMask');
+    }
   };
 
   const switchToMumbai = async () => {
@@ -102,7 +121,10 @@ export default function Home() {
     }
   };
 
-  const waitForTransaction = async (transactionResponse, provider) => {
+  const waitForTransaction = async (
+    transactionResponse: ContractTransaction,
+    provider: ethers.providers.Web3Provider,
+  ) => {
     console.log(`Mining ${transactionResponse.hash}`);
     return new Promise((resolve, reject) => {
       try {
