@@ -126,7 +126,7 @@ export default function Home() {
     provider: ethers.providers.Web3Provider,
   ) => {
     console.log(`Mining ${transactionResponse.hash}`);
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       try {
         provider.once(transactionResponse.hash, (transactionReceipt) => {
           console.log(
