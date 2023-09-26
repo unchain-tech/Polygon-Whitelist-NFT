@@ -1,5 +1,5 @@
 **/artifacts/
 **/cache/
 **/typechain-types/
-packages/frontend/.next/
-packages/frontend/types/typechain/
+packages/client/.next/
+packages/client/types/typechain/

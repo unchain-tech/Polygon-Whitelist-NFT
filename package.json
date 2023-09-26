@@ -23,7 +23,7 @@
   },
   "scripts": {
     "contract": "yarn workspace contract",
-    "frontend": "yarn workspace frontend",
+    "client": "yarn workspace client",
     "solhint": "solhint --max-warnings 0 \"packages/contract/contracts/*.sol\"",
     "lint": "eslint --ext .html,.js .",
     "lint:fix": "eslint --fix .",

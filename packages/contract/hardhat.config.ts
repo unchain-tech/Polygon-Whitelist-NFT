@@ -4,10 +4,10 @@ import '@nomicfoundation/hardhat-toolbox';
 const config: HardhatUserConfig = {
   solidity: '0.8.4',
   paths: {
-    artifacts: '../frontend/artifacts',
+    artifacts: '../client/artifacts',
   },
   typechain: {
-    outDir: '../frontend/types/typechain',
+    outDir: '../client/types/typechain',
     target: 'ethers-v5',
   },
 };
