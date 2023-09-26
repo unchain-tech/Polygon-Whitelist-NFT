@@ -10,6 +10,7 @@
     ]
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^6.7.3",
     "eslint": "^8.47.0",
     "eslint-plugin-html": "^7.1.0",
     "lint-staged": "^14.0.1",
