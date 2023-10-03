@@ -12,7 +12,7 @@ This repository is a sample code for UNCHAIN Polygon Whitelist NFT.
 
 #### 2. Sign in to ChainIDE
 
-Open [ChainIDE](https://chainide.com/), and click the "Try Now" button on the front page as shown in the figure below. 
+Open [ChainIDE](https://chainide.com/), and click the "Try Now" button on the front page as shown in the figure below.
 
 ![Open ChainIDE](/images/README/1.png)
 
@@ -47,7 +47,7 @@ Deploy the contract to Polygon's testnet `Mumbai` with reference to [here](https
 
 #### 6. Configure and start the client
 
-Within the `packages/client` folder, create a `.env.local` file and add the following. 
+Within the `packages/client` folder, create a `.env.local` file and add the following.
 
 ```
 NEXT_PUBLIC_CONTRACT_ADDRESS=Shield Contract Address
