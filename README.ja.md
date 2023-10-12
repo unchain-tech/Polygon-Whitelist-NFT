@@ -26,7 +26,7 @@
 
 ![New Project](/images/README/3.png)
 
-「Polygon」を選択し、「Import Project」をクリックします。
+「Polygon」を選択し、`Private Template`の「Import Project」をクリックします。
 
 ![Import Project](/images/README/4.png)
 
