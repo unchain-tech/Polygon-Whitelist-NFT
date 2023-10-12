@@ -32,9 +32,9 @@ describe('Shield', function () {
       it('reverts', async function () {
         const { shield, alice } = await loadFixture(deployWhitelistFixture);
 
-        await expect(shield.connect(alice).setPaused(true)).to.be.revertedWith(
-          'Ownable: caller is not the owner',
-        );
+        await expect(shield.connect(alice).setPaused(true))
+          .to.be.revertedWithCustomError(shield, 'OwnableUnauthorizedAccount')
+          .withArgs(alice.address);
       });
     });
     context('when set to true', function () {
@@ -142,9 +142,9 @@ describe('Shield', function () {
       it('reverts', async function () {
         const { shield, alice } = await loadFixture(deployWhitelistFixture);
 
-        await expect(shield.connect(alice).withdraw()).to.be.revertedWith(
-          'Ownable: caller is not the owner',
-        );
+        await expect(shield.connect(alice).withdraw())
+          .to.be.revertedWithCustomError(shield, 'OwnableUnauthorizedAccount')
+          .withArgs(alice.address);
       });
     });
     context('when owner executes', function () {
