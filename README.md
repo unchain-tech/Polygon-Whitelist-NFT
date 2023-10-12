@@ -26,7 +26,7 @@ Click on "New Project".
 
 ![New Project](/images/README/3.png)
 
-Select "Polygon" and click on "Import Project".
+Select "Polygon" and click on "Import Project" under `Private Template`.
 
 ![Import Project](/images/README/4.png)
 

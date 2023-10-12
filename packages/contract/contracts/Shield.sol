@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -41,7 +41,7 @@ contract Shield is ERC721Enumerable, Ownable {
     constructor(
         string memory baseURI,
         address whitelistContract
-    ) ERC721("ChainIDE Shields", "CS") {
+    ) ERC721("ChainIDE Shields", "CS") Ownable(msg.sender) {
         _baseTokenURI = baseURI;
         _whitelist = IWhitelist(whitelistContract);
     }
