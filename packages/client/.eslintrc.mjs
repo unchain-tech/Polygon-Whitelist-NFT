@@ -1,27 +1,27 @@
-import { FlatCompat } from '@eslint/eslintrc'
+import { FlatCompat } from '@eslint/eslintrc';
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
-})
+});
 
 const eslintConfig = [
   ...compat.config({
     extends: [
-      "next",
-      "../../.eslintrc.js",
-      "plugin:@typescript-eslint/recommended"
+      'next',
+      '../../.eslintrc.js',
+      'plugin:@typescript-eslint/recommended',
     ],
-    plugins: ["@typescript-eslint"],
+    plugins: ['@typescript-eslint'],
     rules: {
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": ["error"]
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error'],
     },
     settings: {
-      "next": {
-        "rootDir": "packages/client/"
-      }
-    }
+      next: {
+        rootDir: 'packages/client/',
+      },
+    },
   }),
-]
+];
 
-export default eslintConfig
+export default eslintConfig;
